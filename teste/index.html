@@ -684,11 +684,27 @@ async function drawCard(o){
     c.fillStyle="#5A6A8C";c.font=`400 10px ${F}`;c.fillText(l,x+cw/2,yy+31);c.textAlign="left"});
   return await new Promise(r=>cv.toBlob(r,"image/jpeg",.92));
 }
+function legenda(c,W,H,cap,nome){
+  const F='"Poppins",system-ui,sans-serif';
+  const obs=(cap.match(/\(([^)]*)\)/)||[])[1]||"";
+  let nomeFoto=cap.replace(/\([^)]*\)/g,"").split(/\s[-–]\s*Perspectiva/i)[0].trim();
+  if(/^perspectiva ilustrada/i.test(nomeFoto))nomeFoto="";
+  const s1=Math.round(W*0.042),s2=Math.round(W*0.024),s3=Math.round(W*0.017),pad=Math.round(W*0.035);
+  c.font=`400 ${s3}px ${F}`;const obsL=obs?wrapLines(c,obs,W-2*pad):[];
+  const bh=pad*1.2+(nomeFoto?s1*1.25:0)+s2*1.45+obsL.length*s3*1.35+pad*0.4;
+  const g=c.createLinearGradient(0,H-bh*1.5,0,H);g.addColorStop(0,"rgba(0,10,40,0)");g.addColorStop(.35,"rgba(0,10,40,.72)");g.addColorStop(1,"rgba(0,10,40,.9)");
+  c.fillStyle=g;c.fillRect(0,H-bh*1.5,W,bh*1.5);
+  let y=H-bh+pad*0.6;c.textBaseline="top";c.textAlign="left";c.shadowColor="rgba(0,0,0,.5)";c.shadowBlur=s2*.3;
+  if(nomeFoto){c.font=`700 ${s1}px ${F}`;c.fillStyle="#fff";c.fillText(nomeFoto,pad,y);y+=s1*1.25}
+  c.font=`500 ${s2}px ${F}`;c.fillStyle="#E8BE68";c.fillText(nome+" · Imagem ilustrativa",pad,y);y+=s2*1.45;
+  c.font=`400 ${s3}px ${F}`;c.fillStyle="rgba(255,255,255,.85)";for(const l of obsL){c.fillText(l,pad,y);y+=s3*1.35}
+  c.shadowBlur=0;
+}
 async function fotosFiles(o){
   const n=o.i+1;if(!GAL[n])return [];
   if(!G.cache[n]){const r=await fetch("galeria/"+n+".json");G.cache[n]=(await r.json()).imgs}
   const base=SLUG(o.nome);const out=[];let k=1;
-  for(const [src] of G.cache[n]){const im=await loadImg(src);const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;cv.getContext("2d").drawImage(im,0,0);
+  for(const [src,cap] of G.cache[n]){const im=await loadImg(src);const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;const c=cv.getContext("2d");c.drawImage(im,0,0);legenda(c,cv.width,cv.height,cap||"",o.nome);
     const bl=await new Promise(r=>cv.toBlob(r,"image/jpeg",.9));out.push(new File([bl],`${base}-${String(k++).padStart(2,"0")}.jpg`,{type:"image/jpeg"}))}
   return out;
 }
