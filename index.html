@@ -23,7 +23,24 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}*,*::before,*::after{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}*,*::before,*::after{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}img{max-width:100%}[hidden]{display:none!important}
+/* Compartilhar card */
+.share-btn{position:absolute;right:12px;top:12px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.95);color:#001651;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.share-btn:hover{background:#FF2732;color:#fff}
+.hero .share-btn svg{position:static;inset:auto;width:18px;height:18px;display:block}
+dialog#sDlg{border:0;padding:0;border-radius:16px;width:min(420px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:var(--surface);color:var(--fg);box-shadow:0 20px 60px rgba(0,10,40,.35)}
+dialog#sDlg::backdrop{background:rgba(0,12,45,.55)}
+.sd{display:flex;flex-direction:column;gap:12px;padding:16px;max-height:calc(100dvh - 24px);overflow:auto}
+.sd-hd{display:flex;align-items:center;gap:10px}.sd-hd h2{margin:0;font-size:16px;flex:1}
+.sd-hd button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--fg);font-size:20px;cursor:pointer}
+.sd img{width:100%;max-width:300px;align-self:center;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);min-height:120px}
+.sbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:0;font:inherit;font-weight:700;font-size:14.5px;cursor:pointer}
+.sbtn svg{width:18px;height:18px}
+.sbtn.card{background:#25D366;color:#073b1d}.sbtn.fotos{background:transparent;border:1.5px solid var(--navy);color:var(--fg)}
+.sbtn[disabled]{opacity:.6;cursor:progress}
+.sd .ok{font-size:12.5px;color:var(--ok);text-align:center;min-height:18px}
+.sd .hint{font-size:11.5px;color:var(--muted);text-align:center;margin:0}
+</style>
 <title>TABELÃO ON-LINE · Equipe Rummenigge</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +52,7 @@
   --navy:#001651; --red:#FF2732; --sky:#2088C3; --ice:#E7F4FB;
   --bg:#F2F4F8; --surface:#FFFFFF; --surface-2:#F6F8FC; --line:#DCE2EE;
   --fg:#001651; --muted:#5A6A8C; --head-bg:#001651; --head-fg:#FFFFFF;
-  --price:#001651; --link:#1F5FD6;
+  --price:#E0141F; --link:#1550C8;
   --ok:#137A3E; --ok-bg:#E3F5EA; --warn:#9A5B00; --warn-bg:#FFF1D9;
   --info:#1C6FA8; --info-bg:#E3F1FA; --hot:#C4121C; --hot-bg:#FFE6E7;
   --new:#7A1AA0; --new-bg:#F4E5FA; --off:#5F6B80; --off-bg:#ECEFF4;
@@ -46,14 +63,14 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#050C22; --surface:#0C1736; --surface-2:#111E42; --line:#1F2D57;
   --fg:#EAF0FF; --muted:#9AA9CC; --head-bg:#00103D; --head-fg:#FFFFFF;
-  --price:#BFD6FF; --link:#8FB8FF; --ice:#13244F;
+  --price:#FF5A63; --link:#7FB0FF; --ice:#13244F;
   --ok:#6FD99A; --ok-bg:#0F2E20; --warn:#F5C26B; --warn-bg:#33260C;
   --info:#7CC4F2; --info-bg:#0E2840; --hot:#FF7A80; --hot-bg:#3A1016;
   --new:#D79BF2; --new-bg:#2C1438; --off:#A3AEC4; --off-bg:#1A2444; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#050C22; --surface:#0C1736; --surface-2:#111E42; --line:#1F2D57;
   --fg:#EAF0FF; --muted:#9AA9CC; --head-bg:#00103D; --head-fg:#FFFFFF;
-  --price:#BFD6FF; --link:#8FB8FF; --ice:#13244F;
+  --price:#FF5A63; --link:#7FB0FF; --ice:#13244F;
   --ok:#6FD99A; --ok-bg:#0F2E20; --warn:#F5C26B; --warn-bg:#33260C;
   --info:#7CC4F2; --info-bg:#0E2840; --hot:#FF7A80; --hot-bg:#3A1016;
   --new:#D79BF2; --new-bg:#2C1438; --off:#A3AEC4; --off-bg:#1A2444; color-scheme:dark}
@@ -124,12 +141,12 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background
 .st-V{background:var(--new-bg);color:var(--new)} .st-X{background:var(--off-bg);color:var(--off)}
 .reg{background:var(--ice);color:var(--fg)}
 .note{font-size:11.5px;font-weight:600;color:var(--red)}
-.card h3{margin:0;font-size:17px;font-weight:700;line-height:1.25;text-wrap:balance;color:var(--fg)}
+.card h3{margin:0;font-size:18px;font-weight:800;line-height:1.25;text-wrap:balance;color:var(--link)}
 .addr{color:var(--muted);font-size:12.5px;display:flex;gap:5px}
 .addr svg{width:13px;height:13px;flex:none;margin-top:3px}
 .price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:4px}
 .price small{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.price b{font-size:22px;font-weight:800;color:var(--price);font-variant-numeric:tabular-nums}
+.price b{font-size:24px;font-weight:800;color:var(--price);font-variant-numeric:tabular-nums}
 .price .consulte{font-size:16px;font-weight:600;color:var(--muted)}
 .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border-block:1px solid var(--line);background:var(--line)}
 .spec{padding:8px 4px;text-align:center;min-width:0;background:var(--surface-2)}
@@ -276,6 +293,15 @@ dialog#gDlg::backdrop{background:rgba(2,6,22,.86)}
   <div id="out"></div>
 </main>
 
+<dialog id="sDlg" aria-labelledby="sTitle"><div class="sd">
+  <div class="sd-hd"><h2 id="sTitle">Compartilhar</h2><button type="button" id="sClose" aria-label="Fechar">×</button></div>
+  <img id="sImg" alt="Gerando o card…">
+  <button class="sbtn card" type="button" id="sCard">Compartilhar card</button>
+  <button class="sbtn fotos" type="button" id="sFotos">Enviar fotos ilustrativas</button>
+  <p class="hint">No celular abre o menu de compartilhar (escolha o WhatsApp). No computador, as imagens são salvas para você anexar.</p>
+  <div class="ok" id="sOk" role="status"></div>
+</div></dialog>
+
 <dialog id="gDlg" aria-labelledby="gTitle"><div class="gw">
   <div class="g-hd"><div><h2 id="gTitle"></h2><p>Imagens ilustrativas · Conexão Plano&amp;Plano</p></div><button class="x" type="button" id="gClose" aria-label="Fechar">×</button></div>
   <div class="g-stage"><button class="g-nav g-prev" type="button" id="gPrev" aria-label="Imagem anterior">‹</button><img id="gImg" alt=""><span class="g-load" id="gLoad">Carregando imagens…</span><button class="g-nav g-next" type="button" id="gNext" aria-label="Próxima imagem">›</button></div>
@@ -404,7 +430,7 @@ const norm=s=>String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(
 const brl=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:2});
 const kbrl=v=>"R$ "+Math.round(v/1000).toLocaleString("pt-BR")+" mil";
 const mes=s=>{if(!s)return"—";const[y,m]=s.split("-");return MES[+m-1]+"/"+y.slice(2)};
-const rng=(a,b,suf="")=>{if(a==null&&b==null)return"—";if(a==null)return fmtN(b)+suf;if(b==null||a===b)return fmtN(a)+suf;return fmtN(a)+"–"+fmtN(b)+suf};
+const rng=(a,b,suf="")=>{if(a==null&&b==null)return"—";if(a==null)return fmtN(b)+suf;if(b==null||a===b||fmtN(a)===fmtN(b))return fmtN(a)+suf;return fmtN(a)+"–"+fmtN(b)+suf};
 const fmtN=n=>Number.isInteger(n)?String(n):String(Math.round(n));
 const dorms=o=>{if(o.dMin==null&&o.dMax==null)return"—";if(o.dMin===0&&o.dMax)return"St–"+o.dMax;return rng(o.dMin,o.dMax)};
 const minU=o=>{const uu=uOf(o);if(!uu||!uu.length)return 0;let m=Infinity;for(const r of uu)if(r[6]>0&&r[6]<m)m=r[6];return m===Infinity?0:m};
@@ -414,6 +440,7 @@ const drive=o=>o.drive?"https://drive.google.com/drive/folders/"+o.drive+"?usp=s
 
 /* Ícones */
 const I={
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>',
   cam:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg>',
   pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
   doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
@@ -469,7 +496,7 @@ function card(o){
   const low=un!=null&&un>0&&un<10;
   const est=o.st==="X"?"0":(un==null?"—":un.toLocaleString("pt-BR"));
   return `<article class="card">
-    <div class="hero${GAL[o.i+1]?" has-gal":""}" style="--rc:${RC[o.reg]}"${GAL[o.i+1]?` data-g="${o.i}"`:""}>${GAL[o.i+1]?`<button type="button" class="gal-chip" data-g="${o.i}" aria-label="Ver ${GAL[o.i+1]} imagens do ${esc(o.nome)}">${I.cam}${GAL[o.i+1]} imagens</button>`:""}${o.img?`<img src="${o.img}" alt="Fachada do ${esc(o.nome)}" decoding="async">`:skyline(o.nome)}<div class="hp"><span class="pill st-${isZero(o)?"X":o.st}">${isZero(o)?"Zerado":ST[o.st]}</span></div><div class="rg">${REG_NAME[o.reg]}<small>${esc(o.bairro.length>22?o.bairro.slice(0,21)+"…":o.bairro)}</small></div></div>
+    <div class="hero${GAL[o.i+1]?" has-gal":""}" style="--rc:${RC[o.reg]}"${GAL[o.i+1]?` data-g="${o.i}"`:""}>${GAL[o.i+1]?`<button type="button" class="gal-chip" data-g="${o.i}" aria-label="Ver ${GAL[o.i+1]} imagens do ${esc(o.nome)}">${I.cam}${GAL[o.i+1]} imagens</button>`:""}${o.img?`<img src="${o.img}" alt="Fachada do ${esc(o.nome)}" decoding="async">`:skyline(o.nome)}<button type="button" class="share-btn" data-s="${o.i}" aria-label="Compartilhar ${esc(o.nome)}">${I.share}</button><div class="hp"><span class="pill st-${isZero(o)?"X":o.st}">${isZero(o)?"Zerado":ST[o.st]}</span></div><div class="rg">${REG_NAME[o.reg]}<small>${esc(o.bairro.length>22?o.bairro.slice(0,21)+"…":o.bairro)}</small></div></div>
     <div class="hd">
       ${o.x.note?`<div class="note">${esc(o.x.note)}</div>`:""}
       <h3>${esc(o.nome)}</h3>
@@ -581,7 +608,7 @@ $("#out").addEventListener("click",e=>{const b=e.target.closest("[data-u]");if(b
 
 
 /* Galeria: galeria/{n}.json = {imgs:[[dataURL, legenda],...]} */
-const GAL={"1": 4, "2": 12, "3": 12, "4": 12, "5": 12, "6": 12, "7": 12, "8": 12, "9": 6, "11": 12, "12": 12, "13": 12, "14": 12, "15": 12, "16": 12, "17": 12, "18": 12, "19": 12, "21": 12, "22": 3, "23": 12, "24": 12, "25": 12, "26": 12, "27": 12, "28": 12, "30": 12, "31": 12, "32": 12, "33": 12, "34": 12, "35": 12, "36": 12, "37": 12, "38": 11, "39": 12, "40": 12, "41": 12, "42": 11, "43": 12, "44": 12, "45": 12, "46": 12, "47": 12, "48": 12, "49": 12, "50": 8, "51": 12, "52": 12, "53": 12, "54": 6, "55": 12, "57": 12, "59": 4, "60": 12, "64": 12, "65": 12, "66": 4, "29": 12, "58": 5};
+const GAL={"17": 12, "54": 5, "49": 9, "55": 11, "41": 10, "45": 12, "42": 11, "3": 12, "65": 9, "33": 12, "35": 12, "15": 12, "40": 10, "58": 5, "7": 12, "30": 12, "53": 12, "23": 12, "48": 12, "19": 10, "47": 11, "36": 10, "12": 11, "60": 12, "6": 7, "29": 12, "43": 12, "57": 12, "18": 10, "13": 12, "59": 4, "38": 8, "1": 4, "26": 11, "2": 12, "32": 9, "44": 12, "31": 12, "46": 12, "52": 12, "24": 12, "9": 6, "37": 10, "14": 12, "28": 12, "64": 8, "16": 12, "27": 12, "21": 10, "66": 4, "4": 9, "22": 3, "51": 12, "50": 8, "5": 12, "25": 12, "34": 11, "11": 12, "39": 9, "8": 12};
 const G={list:[],k:0,o:null,cache:{}};
 async function openGal(i){
   const o=items[i],n=i+1;G.o=o;G.k=0;G.list=[];
@@ -607,7 +634,101 @@ $("#gClose").addEventListener("click",()=>$("#gDlg").close());
 $("#gDlg").addEventListener("keydown",e=>{if(e.key==="ArrowLeft")showG(G.k-1);if(e.key==="ArrowRight")showG(G.k+1)});
 let tx=null;$("#gImg").addEventListener("touchstart",e=>{tx=e.touches[0].clientX},{passive:true});
 $("#gImg").addEventListener("touchend",e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)showG(G.k+(dx<0?1:-1));tx=null});
-$("#out").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(b){e.stopPropagation();openGal(+b.dataset.g)}},true);
+$("#out").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(b&&!e.target.closest("[data-s]")){e.stopPropagation();openGal(+b.dataset.g)}},true);
+
+/* Compartilhar: gera a imagem do card (canvas) e, opcionalmente, envia as fotos ilustrativas */
+const SC={o:null,card:null,fotos:null};
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function wrapLines(c,t,max){const w=t.split(/\s+/),out=[];let cur="";for(const x of w){const tt=cur?cur+" "+x:x;if(c.measureText(tt).width<=max)cur=tt;else{if(cur)out.push(cur);cur=x}}if(cur)out.push(cur);return out}
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
+async function drawCard(o){
+  await document.fonts.ready;
+  const S=3,W=375,PH=190,PAD=16,F='"Poppins",system-ui,sans-serif';
+  const uu=uOf(o),un=uu?uu.length:o.un;
+  const specs=[[o.aMin==null&&o.aMax==null?"—":rng(o.aMin,o.aMax)+"m²","ÁREA"],[dorms(o),"DORMS"],[rng(o.vgMin,o.vgMax),"VAGAS"],
+    [o.var?o.var[0].toUpperCase()+o.var.slice(1):"—","ÁREA EXT."],[mes(o.ent),"ENTREGA"],[o.st==="X"?"0":(un==null?"—":un.toLocaleString("pt-BR")),uu?"DISPONÍVEIS":"ESTOQUE"]];
+  const m=document.createElement("canvas").getContext("2d");m.font=`700 19px ${F}`;
+  const nameL=wrapLines(m,o.nome,W-2*PAD);m.font=`400 13px ${F}`;
+  const addrL=wrapLines(m,`${o.end}, ${o.bairro} · ${REG_NAME[o.reg]}`,W-2*PAD-20);
+  const H=PH+4+PAD+nameL.length*25+6+addrL.length*19+14+34+14+2*52+1;
+  const cv=document.createElement("canvas");cv.width=W*S;cv.height=H*S;const c=cv.getContext("2d");c.scale(S,S);
+  c.fillStyle="#fff";c.fillRect(0,0,W,H);
+  // foto
+  if(o.img){const im=await loadImg(o.img);const sc=Math.max(W/im.width,PH/im.height);const iw=im.width*sc,ih=im.height*sc;c.save();c.beginPath();c.rect(0,0,W,PH);c.clip();c.drawImage(im,(W-iw)/2,(PH-ih)/2,iw,ih);c.restore()}
+  else{c.fillStyle="#001651";c.fillRect(0,0,W,PH)}
+  let g=c.createLinearGradient(0,0,0,PH);g.addColorStop(0,"rgba(0,22,81,.45)");g.addColorStop(.38,"rgba(0,22,81,0)");g.addColorStop(.6,"rgba(0,22,81,0)");g.addColorStop(1,"rgba(0,22,81,.7)");c.fillStyle=g;c.fillRect(0,0,W,PH);
+  // status
+  const stTxt=isZero(o)?"Zerado":ST[o.st],stCol={N:"#C4121C",V:"#7A1AA0",L:"#1C6FA8",O:"#9A5B00",E:"#137A3E",X:"#5F6B80"}[isZero(o)?"X":o.st];
+  c.font=`600 12px ${F}`;const sw=c.measureText(stTxt).width+22;rr(c,14,14,sw,26,13);c.fillStyle="#fff";c.fill();c.fillStyle=stCol;c.textBaseline="middle";c.fillText(stTxt,25,27.5);
+  // região e bairro
+  c.textAlign="right";c.font=`800 22px ${F}`;c.fillStyle="#fff";c.shadowColor="rgba(0,0,0,.45)";c.shadowBlur=6;c.fillText(REG_NAME[o.reg],W-14,PH-38);c.shadowBlur=0;
+  const b=(o.bairro.length>22?o.bairro.slice(0,21)+"…":o.bairro).toUpperCase();c.font=`600 10px ${F}`;const bw=c.measureText(b).width+14;
+  rr(c,W-14-bw,PH-26,bw,17,6);c.fillStyle="rgba(0,22,81,.72)";c.fill();c.fillStyle="#fff";c.fillText(b,W-21,PH-17.5);c.textAlign="left";
+  c.fillStyle=RC[o.reg];c.fillRect(0,PH,W,4);
+  // nome, endereço, preço
+  let y=PH+4+PAD;c.textBaseline="top";c.fillStyle="#1550C8";c.font=`800 19px ${F}`;for(const l of nameL){c.fillText(l,PAD,y);y+=25}
+  y+=6;c.fillStyle="#5A6A8C";c.font=`400 13px ${F}`;
+  c.strokeStyle="#5A6A8C";c.lineWidth=1.5;c.beginPath();c.moveTo(PAD+6,y+15);c.bezierCurveTo(PAD+1,y+10,PAD,y+8,PAD,y+6);c.arc(PAD+6,y+6,6,Math.PI,0);c.bezierCurveTo(PAD+12,y+8,PAD+11,y+10,PAD+6,y+15);c.stroke();c.beginPath();c.arc(PAD+6,y+6,2,0,Math.PI*2);c.stroke();
+  for(const l of addrL){c.fillText(l,PAD+20,y);y+=19}
+  y+=14;
+  const pm=pMin(o);
+  if(isZero(o)){c.font=`600 16px ${F}`;c.fillStyle="#5A6A8C";c.fillText("Sem unidades disponíveis",PAD,y+8)}
+  else if(pm>0){c.font=`400 11px ${F}`;c.fillStyle="#5A6A8C";c.fillText("A PARTIR DE",PAD,y+12);const lw=c.measureText("A PARTIR DE").width;c.font=`800 25px ${F}`;c.fillStyle="#E0141F";c.fillText(kbrl(pm),PAD+lw+10,y-1)}
+  else{c.font=`600 16px ${F}`;c.fillStyle="#5A6A8C";c.fillText("Preço: consulte",PAD,y+8)}
+  y+=34+14;
+  // grade 3x2
+  const cw=W/3;c.fillStyle="#DCE2EE";c.fillRect(0,y,W,2*52+1);
+  specs.forEach(([v,l],i)=>{const x=(i%3)*cw,yy=y+1+Math.floor(i/3)*52;c.fillStyle="#F6F8FC";c.fillRect(x+(i%3?1:0),yy,cw-(i%3?1:0),51);
+    c.textAlign="center";c.fillStyle=(l!=="ÁREA EXT."&&l!=="ENTREGA"&&(l==="DISPONÍVEIS"||l==="ESTOQUE")&&un>0&&un<10)?"#FF2732":"#001651";c.font=`700 14px ${F}`;c.fillText(String(v??"—"),x+cw/2,yy+9);
+    c.fillStyle="#5A6A8C";c.font=`400 10px ${F}`;c.fillText(l,x+cw/2,yy+31);c.textAlign="left"});
+  return await new Promise(r=>cv.toBlob(r,"image/jpeg",.92));
+}
+function legenda(c,W,H,cap,nome){
+  const F='"Poppins",system-ui,sans-serif';
+  const obs=(cap.match(/\(([^)]*)\)/)||[])[1]||"";
+  let nomeFoto=cap.replace(/\([^)]*\)/g,"").split(/\s[-–]\s*Perspectiva/i)[0].trim();
+  if(/^perspectiva ilustrada/i.test(nomeFoto))nomeFoto="";
+  const s1=Math.round(W*0.042),s2=Math.round(W*0.024),s3=Math.round(W*0.017),pad=Math.round(W*0.035);
+  c.font=`400 ${s3}px ${F}`;const obsL=obs?wrapLines(c,obs,W-2*pad):[];
+  const bh=pad*1.2+(nomeFoto?s1*1.25:0)+s2*1.45+obsL.length*s3*1.35+pad*0.4;
+  const g=c.createLinearGradient(0,H-bh*1.5,0,H);g.addColorStop(0,"rgba(0,10,40,0)");g.addColorStop(.35,"rgba(0,10,40,.72)");g.addColorStop(1,"rgba(0,10,40,.9)");
+  c.fillStyle=g;c.fillRect(0,H-bh*1.5,W,bh*1.5);
+  let y=H-bh+pad*0.6;c.textBaseline="top";c.textAlign="left";c.shadowColor="rgba(0,0,0,.5)";c.shadowBlur=s2*.3;
+  if(nomeFoto){c.font=`700 ${s1}px ${F}`;c.fillStyle="#fff";c.fillText(nomeFoto,pad,y);y+=s1*1.25}
+  c.font=`500 ${s2}px ${F}`;c.fillStyle="#E8BE68";c.fillText(nome+" · Imagem ilustrativa",pad,y);y+=s2*1.45;
+  c.font=`400 ${s3}px ${F}`;c.fillStyle="rgba(255,255,255,.85)";for(const l of obsL){c.fillText(l,pad,y);y+=s3*1.35}
+  c.shadowBlur=0;
+}
+async function fotosFiles(o){
+  const n=o.i+1;if(!GAL[n])return [];
+  if(!G.cache[n]){const r=await fetch("galeria/"+n+".json");G.cache[n]=(await r.json()).imgs}
+  const base=SLUG(o.nome);const out=[];let k=1;
+  for(const [src,cap] of G.cache[n]){const im=await loadImg(src);const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;const c=cv.getContext("2d");c.drawImage(im,0,0);legenda(c,cv.width,cv.height,cap||"",o.nome);
+    const bl=await new Promise(r=>cv.toBlob(r,"image/jpeg",.9));out.push(new File([bl],`${base}-${String(k++).padStart(2,"0")}.jpg`,{type:"image/jpeg"}))}
+  return out;
+}
+const SLUG=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+function canShareFiles(files){try{return !!(navigator.canShare&&navigator.canShare({files}))}catch(e){return false}}
+function baixar(file){const a=document.createElement("a");a.href=URL.createObjectURL(file);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+async function openShare(i){
+  const o=items[i];SC.o=o;SC.card=null;SC.fotos=null;
+  $("#sTitle").textContent=o.nome;$("#sOk").textContent="";$("#sImg").removeAttribute("src");$("#sImg").alt="Gerando o card…";
+  const n=GAL[o.i+1]||0;$("#sFotos").hidden=!n;$("#sFotos").innerHTML=`${I.cam} Enviar fotos ilustrativas (${n})`;
+  $("#sDlg").showModal();
+  const bl=await drawCard(o);SC.card=new File([bl],`${SLUG(o.nome)}-card.jpg`,{type:"image/jpeg"});
+  $("#sImg").src=URL.createObjectURL(bl);$("#sImg").alt="Card de "+o.nome;
+}
+async function enviar(files,rotulo){
+  if(canShareFiles(files)){try{await navigator.share({files});$("#sOk").textContent=rotulo+" enviado.";return}catch(e){if(e.name==="AbortError")return}}
+  files.forEach((f,j)=>setTimeout(()=>baixar(f),j*350));
+  $("#sOk").textContent=files.length>1?`${files.length} fotos salvas no computador. Anexe no WhatsApp.`:"Card salvo no computador. Anexe no WhatsApp.";
+}
+$("#sCard").addEventListener("click",async()=>{if(!SC.card)return;await enviar([SC.card],"Card")});
+$("#sFotos").addEventListener("click",async()=>{const b=$("#sFotos");b.disabled=true;$("#sOk").textContent="Preparando as fotos…";
+  try{if(!SC.fotos)SC.fotos=await fotosFiles(SC.o);await enviar(SC.fotos,"Fotos")}catch(e){$("#sOk").textContent="Não deu para preparar as fotos agora."}b.disabled=false});
+$("#sClose").addEventListener("click",()=>$("#sDlg").close());
+$("#sDlg").addEventListener("click",e=>{if(e.target.id==="sDlg")e.target.close()});
+$("#out").addEventListener("click",e=>{const b=e.target.closest("[data-s]");if(b){e.stopPropagation();openShare(+b.dataset.s)}},true);
 
 /* Eventos */
 $("#q").addEventListener("input",e=>{F.q=e.target.value.trim();render()});
