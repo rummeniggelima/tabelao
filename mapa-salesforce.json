@@ -1,0 +1,302 @@
+[
+{
+"n": 1,
+"salesforce": "Condomínio Ares do Horto - Aroeira",
+"filtroBloco": null
+},
+{
+"n": 2,
+"salesforce": "Condomínio Ares do Horto - Cajueiro",
+"filtroBloco": null
+},
+{
+"n": 3,
+"salesforce": "Condomínio Vila Boulevard Mooca",
+"filtroBloco": "Acácia"
+},
+{
+"n": 4,
+"salesforce": "Condomínio Residencial Duetto São Domingos",
+"filtroBloco": null
+},
+{
+"n": 5,
+"salesforce": "Condomínio Residencial Plano & Bosque Do Carmo - Embaúba",
+"filtroBloco": null
+},
+{
+"n": 6,
+"salesforce": "Condomínio Residencial Plano & Caminhos Do Jaçanã",
+"filtroBloco": null
+},
+{
+"n": 7,
+"salesforce": "Condomínio Residencial Plano&Essência Life",
+"filtroBloco": null
+},
+{
+"n": 8,
+"salesforce": "Condomínio Residencial Plano & Praça Pirituba - Flora",
+"filtroBloco": null
+},
+{
+"n": 9,
+"salesforce": "Condomínio Residencial Plano& Raízes Das Mercês - Marques De Lages",
+"filtroBloco": null
+},
+{
+"n": 11,
+"salesforce": "Condomínio Ares Do Horto Ipê Amarelo",
+"filtroBloco": null
+},
+{
+"n": 12,
+"salesforce": "Condomínio Ares Do Horto Pau Brasil",
+"filtroBloco": null
+},
+{
+"n": 13,
+"salesforce": "Condomínio Mistá Tupinás by Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 14,
+"salesforce": "Condomínio Mistá Ubiatans by Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 15,
+"salesforce": "Condomínio Plano&Bosque do Carmo - Eucalipto",
+"filtroBloco": null
+},
+{
+"n": 16,
+"salesforce": "Condomínio Plano&Estação Mooca",
+"filtroBloco": null
+},
+{
+"n": 17,
+"salesforce": "Condomínio Plano&Reserva da Mooca",
+"filtroBloco": null
+},
+{
+"n": 18,
+"salesforce": "Condomínio Residencial Centro & Barão de Campinas - Plano & Plano",
+"filtroBloco": null
+},
+{
+"n": 19,
+"salesforce": "Condomínio Residencial Centro& Santa Cecilia - Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 20,
+"salesforce": "Condomínio Residencial Inspire Mauá Sonhos",
+"filtroBloco": null
+},
+{
+"n": 21,
+"salesforce": "Condomínio Residencial MAPP Rio Branco",
+"filtroBloco": null
+},
+{
+"n": 22,
+"salesforce": "Condomínio Residencial Meu Plano& Itaquera - Amoreira",
+"filtroBloco": null
+},
+{
+"n": 23,
+"salesforce": "Condomínio Residencial Meu Plano& Itaquera - Ipê",
+"filtroBloco": null
+},
+{
+"n": 24,
+"salesforce": "Condomínio Residencial Meu Plano&Parque do Carmo - Figueira",
+"filtroBloco": null
+},
+{
+"n": 25,
+"salesforce": "Condomínio Residencial Meu Plano&Parque do Carmo - Ipê",
+"filtroBloco": null
+},
+{
+"n": 26,
+"salesforce": "Condomínio Residencial Mundo Park - Alvorada",
+"filtroBloco": null
+},
+{
+"n": 27,
+"salesforce": "Condomínio Residencial Mundo Park - Aurora",
+"filtroBloco": null
+},
+{
+"n": 28,
+"salesforce": "Condomínio Residencial Mundo Park - Solis",
+"filtroBloco": null
+},
+{
+"n": 29,
+"salesforce": "Condomínio Residencial Nid Alphaville",
+"filtroBloco": null
+},
+{
+"n": 30,
+"salesforce": "Condomínio Residencial Oriz by Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 31,
+"salesforce": "Condomínio Residencial Plano&Alto Cantareira",
+"filtroBloco": null
+},
+{
+"n": 32,
+"salesforce": "Condomínio Residencial Plano & Alto Morumbi",
+"filtroBloco": null
+},
+{
+"n": 33,
+"salesforce": "Condomínio Residencial Plano& Bosque do Carmo - Seringueira",
+"filtroBloco": null
+},
+{
+"n": 34,
+"salesforce": "Condomínio Residencial Plano&Jaçanã",
+"filtroBloco": null
+},
+{
+"n": 35,
+"salesforce": "Condomínio Residencial Plano&Mais Belém",
+"filtroBloco": null
+},
+{
+"n": 36,
+"salesforce": "Condomínio Residencial Plano & Mais Butantã",
+"filtroBloco": null
+},
+{
+"n": 37,
+"salesforce": "Condomínio Residencial Plano & Mais Interlagos - Refúgio",
+"filtroBloco": null
+},
+{
+"n": 38,
+"salesforce": "Condomínio Residencial Plano & Mais Interlagos - Reserva",
+"filtroBloco": null
+},
+{
+"n": 39,
+"salesforce": "Condomínio Residencial Plano& Mais Penha",
+"filtroBloco": null
+},
+{
+"n": 40,
+"salesforce": "Condomínio Residencial Plano& Park Santo Amaro",
+"filtroBloco": null
+},
+{
+"n": 41,
+"salesforce": "Condomínio Residencial Plano&Vila Ema",
+"filtroBloco": null
+},
+{
+"n": 42,
+"salesforce": "Condomínio Residencial Plano& Vila Leopoldina - Carlos Weber",
+"filtroBloco": null
+},
+{
+"n": 43,
+"salesforce": "Condomínio Residencial Plano & Vila Leopoldina - Sebastião Bach",
+"filtroBloco": null
+},
+{
+"n": 44,
+"salesforce": "Condomínio Residencial Sphera Panamby - Club",
+"filtroBloco": null
+},
+{
+"n": 45,
+"salesforce": "Condomínio Residencial Sphera Panamby - Park",
+"filtroBloco": null
+},
+{
+"n": 46,
+"salesforce": "Condomínio Residencial Sphera Panamby - Urban",
+"filtroBloco": null
+},
+{
+"n": 47,
+"salesforce": "Condomínio Residencial Unni Felicitá by Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 48,
+"salesforce": "Condomínio Residencial Unni Harmoni by Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 49,
+"salesforce": "Condomínio Residencial Viz by Plano&Plano",
+"filtroBloco": null
+},
+{
+"n": 50,
+"salesforce": "Start Jardim Clube São Bernardo- Joy -Fase 2",
+"filtroBloco": null
+},
+{
+"n": 51,
+"salesforce": "Condomínio Unni Brás Residences",
+"filtroBloco": null
+},
+{
+"n": 52,
+"salesforce": "Condomínio Vila Boulevard Mooca",
+"filtroBloco": "Jacarand"
+},
+{
+"n": 53,
+"salesforce": "Condomínio Residencial Plano&Essência Club",
+"filtroBloco": null
+},
+{
+"n": 54,
+"salesforce": "Condomínio Jardim Das Origens - Parque Mairá",
+"filtroBloco": null
+},
+{
+"n": 55,
+"salesforce": "Condomínio Plano & Mais Barra Funda - Mq. De São Vicente",
+"filtroBloco": null
+},
+{
+"n": 57,
+"salesforce": "Condomínio Residencial Tikoá Origem",
+"filtroBloco": null
+},
+{
+"n": 59,
+"salesforce": "Condomínio Jardim das Origens - Parque Aruá",
+"filtroBloco": null
+},
+{
+"n": 60,
+"salesforce": "Condomínio Plano & Mais Barra Funda - Thomas Edison",
+"filtroBloco": null
+},
+{
+"n": 64,
+"salesforce": "Oáz Club Santo Amaro",
+"filtroBloco": null
+},
+{
+"n": 65,
+"salesforce": "Pastas  - Polo Paulista - Carlos Sampaio (P&P + YOU)",
+"filtroBloco": null
+},
+{
+"n": 66,
+"salesforce": "Condomínio Residencial Plano& Raízes Das Mercês - Romão Puiggari",
+"filtroBloco": null
+}
+]
