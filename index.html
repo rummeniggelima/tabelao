@@ -40,6 +40,68 @@ dialog#sDlg::backdrop{background:rgba(0,12,45,.55)}
 .sbtn[disabled]{opacity:.6;cursor:progress}
 .sd .ok{font-size:12.5px;color:var(--ok);text-align:center;min-height:18px}
 .sd .hint{font-size:11.5px;color:var(--muted);text-align:center;margin:0}
+/* Abas + Unidades com descontos */
+.tabs{background:var(--head-bg);border-top:1px solid rgba(255,255,255,.08)}
+.tabs .wrap{display:flex;gap:6px;padding-block:8px;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{flex:none;display:inline-flex;align-items:center;gap:7px;height:36px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;font:inherit;font-size:13.5px;font-weight:700;padding:0 15px;cursor:pointer;white-space:nowrap}
+.tab svg{width:16px;height:16px}
+.tab .n{font-size:11px;font-weight:800;border-radius:999px;padding:1px 7px;background:rgba(255,255,255,.18)}
+.tab[aria-selected="true"]{background:#fff;color:var(--navy);border-color:#fff}
+.tab.hot{border-color:#FF2732;background:#FF2732;color:#fff}
+.tab.hot .n{background:#fff;color:#C4121C}
+.tab.hot[aria-selected="true"]{background:#fff;color:#C4121C;border-color:#fff;box-shadow:inset 0 0 0 2px #FF2732}
+.tab.hot[aria-selected="true"] .n{background:#FF2732;color:#fff}
+@media (prefers-reduced-motion:no-preference){.tab.hot:not([aria-selected="true"]){animation:pulse 2.2s ease-in-out infinite}}
+@media (max-width:430px){.tab{font-size:12.5px;padding:0 11px;gap:5px}.tabs .wrap{gap:5px}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,39,50,.55)}50%{box-shadow:0 0 0 6px rgba(255,39,50,0)}}
+.pv-ban{display:block;width:100%;height:auto;border-radius:var(--r);margin-top:14px;background:#111}
+.pv-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding-block:12px 4px}
+.pv-info .count{font-weight:700;font-size:15px}
+.pv-val{font-size:12.5px;font-weight:700;color:var(--hot);background:var(--hot-bg);border-radius:999px;padding:3px 10px}
+.pv-note{font-size:12px;color:var(--muted);margin:2px 0 10px}
+.pv-f{position:sticky;top:calc(env(safe-area-inset-top,0px) + 60px);z-index:7;background:var(--bg);display:flex;gap:8px;padding-block:10px;overflow-x:auto;scrollbar-width:none}
+.pv-f::-webkit-scrollbar{display:none}
+.pgs{display:flex;flex-direction:column;gap:10px;padding-bottom:28px}
+.pg{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.pg>summary{list-style:none;display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;padding:10px 14px 10px 10px;cursor:pointer}
+.pg>summary::-webkit-details-marker{display:none}
+.pg .th{width:72px;height:56px;border-radius:10px;object-fit:cover;background:var(--ice)}
+.pg .th.none{display:grid;place-items:center;color:var(--muted);font-size:10px;text-align:center}
+.pg h3{margin:0;font-size:16px;font-weight:800;color:var(--link);line-height:1.25}
+.pg .meta{font-size:12px;color:var(--muted);margin-top:2px}
+.pg .meta b{color:var(--fg);font-weight:700}
+.pg .pr{text-align:right;white-space:nowrap}
+.pg .pr small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.pg .pr b{font-size:19px;font-weight:800;color:var(--price);font-variant-numeric:tabular-nums}
+.pg .pr .chev{display:inline-block;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin-left:8px;vertical-align:4px;transition:transform .15s}
+.pg[open] .pr .chev{transform:rotate(-135deg);vertical-align:0}
+.pt-wrap{border-top:1px solid var(--line);overflow-x:auto}
+table.pt{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+.pt th{position:sticky;top:0;background:var(--navy);color:#fff;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:7px 8px;text-align:left;white-space:nowrap}
+.pt td{padding:7px 8px;border-top:1px solid var(--line);white-space:nowrap}
+.pt tr:nth-child(even) td{background:var(--surface-2)}
+.pt td.v{font-weight:800;color:var(--price);font-size:13.5px}
+.pt td.u{font-weight:800}
+.pt .yes{color:var(--ok);font-weight:700}
+.pt .no{color:var(--muted)}
+.pt .rs{font-size:11px}
+@media (max-width:760px){
+  .pg>summary{grid-template-columns:56px 1fr;padding:10px 12px 10px 10px}
+  .pg .th{width:56px;height:48px}
+  .pg .pr{grid-column:2;text-align:left}
+  .pg .pr small{display:inline;margin-right:6px}
+  .pt-wrap{overflow:visible}
+  table.pt,.pt tbody,.pt tr,.pt td{display:block}
+  .pt thead{display:none}
+  .pt tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px 10px;padding:10px 12px;border-top:1px solid var(--line)}
+  .pt tr:nth-child(even) td{background:none}
+  .pt tr:nth-child(even){background:var(--surface-2)}
+  .pt td{border:0;padding:0;white-space:normal;font-size:12.5px}
+  .pt td::before{content:attr(data-l);display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .pt td.d{grid-column:1/-1}
+  .pt td.v{grid-column:span 2;font-size:17px}
+}
 </style>
 <title>TABELÃO ON-LINE · Equipe Rummenigge</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -263,6 +325,29 @@ dialog#gDlg::backdrop{background:rgba(2,6,22,.86)}
     </button>
   </div>
 </header>
+<div class="tabs" id="tabs" hidden><div class="wrap" role="tablist" aria-label="Seções">
+  <button class="tab hot" type="button" role="tab" id="tabPromo" aria-selected="false"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 1.7s.9 3.3-1.2 6.2c-1.3 1.9-3.6 2.6-3.6 5.6 0 0-1.6-.8-1.6-3.3C4.9 12 4 14 4 16a8 8 0 0 0 16 0c0-6.4-6.5-8.6-6.5-14.3zM12 22a3.5 3.5 0 0 1-3.5-3.5c0-2.3 2.2-3 2.5-5.5 1.8 1.2 4.5 3 4.5 5.5A3.5 3.5 0 0 1 12 22z"/></svg>Unidades com descontos<span class="n" id="tabPromoN"></span></button>
+  <button class="tab" type="button" role="tab" id="tabMain" aria-selected="true">Empreendimentos</button>
+</div></div>
+
+<section id="promoView" class="wrap" hidden aria-labelledby="pvTitle">
+  <h2 id="pvTitle" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Unidades com descontos</h2>
+  <img class="pv-ban" id="pvBan" alt="" width="1315" height="227">
+  <div class="pv-info"><div class="count" id="pvCount"></div><span class="pv-val" id="pvVal"></span><span class="ustamp" id="pvStamp"></span></div>
+  <p class="pv-note" id="pvNote"></p>
+  <div class="pv-f">
+    <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="pq" type="search" placeholder="Buscar torre ou unidade" aria-label="Buscar nas unidades com desconto"></label>
+    <div class="chip"><select id="pReg" aria-label="Região"><option value="">Região</option></select></div>
+    <div class="chip"><select id="pEmp" aria-label="Empreendimento"><option value="">Empreendimento</option></select></div>
+    <div class="chip"><select id="pDorm" aria-label="Dormitórios"><option value="">Dorms</option><option value="1">1 dorm.</option><option value="2">2 dorms.</option><option value="3">3 dorms.</option></select></div>
+    <div class="chip"><select id="pPreco" aria-label="Valor até"><option value="">Valor</option><option value="220000">até R$ 220 mil</option><option value="250000">até R$ 250 mil</option><option value="300000">até R$ 300 mil</option><option value="350000">até R$ 350 mil</option><option value="400000">até R$ 400 mil</option></select></div>
+    <div class="chip"><select id="pSort" aria-label="Ordenar"><option value="valor">Menor valor</option><option value="nome">A–Z</option><option value="qtd">Mais unidades</option></select></div>
+    <button class="clear" id="pClear" type="button" hidden>Limpar</button>
+  </div>
+  <div id="pOut" class="pgs"></div>
+</section>
+
 
 <nav class="filters" aria-label="Filtros">
   <div class="wrap">
@@ -730,6 +815,89 @@ $("#sClose").addEventListener("click",()=>$("#sDlg").close());
 $("#sDlg").addEventListener("click",e=>{if(e.target.id==="sDlg")e.target.close()});
 $("#out").addEventListener("click",e=>{const b=e.target.closest("[data-s]");if(b){e.stopPropagation();openShare(+b.dataset.s)}},true);
 
+/* Unidades com descontos (encarte enviado pela Plano&Plano), carregadas de promocoes.json */
+let PROMO=null, tab="main";
+const PF={q:"",reg:"",emp:"",dorm:"",preco:"",sort:"valor"};
+const hojeSP=()=>{try{return new Date().toLocaleDateString("sv-SE",{timeZone:"America/Sao_Paulo"})}catch(e){return new Date().toISOString().slice(0,10)}};
+const brD=s=>s.split("-").reverse().slice(0,2).join("/");
+const pBRL=v=>v==null?"Consultar":"R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const n0=v=>v==null?"–":v.toLocaleString("pt-BR");
+const PREG={ZL:"Leste",ZN:"Norte",ZO:"Oeste",ZS:"Sul","Grande SP":"Grande SP",Centro:"Centro"};
+const promoOn=()=>!!(PROMO&&PROMO.ativo!==false&&hojeSP()>=PROMO.validoDe&&hojeSP()<=PROMO.validoAte&&PROMO.units.length);
+function dormsOf(d){const m=/(\d)\s*dorm/i.exec(d||"");return m?+m[1]:null}
+async function loadPromo(){
+  try{
+    const r=await fetch("promocoes.json",{cache:"no-store"});if(!r.ok)throw 0;
+    const P=await r.json();const C=P.campos;
+    P.units=P.rows.map(x=>{const o={};C.forEach((k,j)=>o[k]=x[j]);o.G=P.grupos[o.g];o.dorms=dormsOf(o.descricao);return o}).filter(o=>o.disp!==0);
+    PROMO=P;
+  }catch(e){PROMO=null}
+  setupPromo();
+}
+function setupPromo(){
+  const on=promoOn();
+  $("#tabs").hidden=!on;
+  if(!on){if(tab==="promo")showTab("main");return}
+  $("#tabPromoN").textContent=PROMO.units.length;
+  $("#pvBan").src=PROMO.banner;$("#pvBan").alt=PROMO.campanha+". "+PROMO.aviso;
+  $("#pvVal").textContent="Válido de "+brD(PROMO.validoDe)+" a "+brD(PROMO.validoAte)+" ou até durarem os estoques";
+  $("#pvStamp").innerHTML=PROMO.conferidoEm?`Vendidas retiradas · conferido no Salesforce em <b>${fmtStamp(PROMO.conferidoEm)}</b>`:"Conferência no Salesforce pendente";
+  $("#pvNote").textContent="Tabela oficial do encarte: "+PROMO.fonte+". Valores e condições sujeitos a análise de crédito e à disponibilidade da unidade no momento da reserva.";
+  const regs=[...new Set(PROMO.units.map(o=>o.G.reg))];
+  $("#pReg").innerHTML='<option value="">Região</option>'+REG_ORDER.filter(r=>regs.includes(r)).map(r=>`<option value="${r}">${REG_NAME[r]}</option>`).join("");
+  const gs=[...new Set(PROMO.units.map(o=>o.g))].sort((a,b)=>PROMO.grupos[a].nome.localeCompare(PROMO.grupos[b].nome,"pt-BR"));
+  $("#pEmp").innerHTML='<option value="">Empreendimento</option>'+gs.map(g=>`<option value="${g}">${esc(PROMO.grupos[g].nome)}</option>`).join("");
+  if(tab==="promo")renderPromo();
+}
+function renderPromo(){
+  if(!promoOn())return;
+  const q=PF.q.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+  const L=PROMO.units.filter(o=>{
+    if(PF.reg&&o.G.reg!==PF.reg)return false;
+    if(PF.emp!==""&&o.g!==+PF.emp)return false;
+    if(PF.dorm&&o.dorms!==+PF.dorm)return false;
+    if(PF.preco&&!(o.tabela!=null&&o.tabela<=+PF.preco))return false;
+    if(q){const t=(o.G.nome+" "+o.G.oficial+" "+o.G.bairro+" "+o.bloco+" "+o.unidade+" "+o.descricao).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();if(!t.includes(q))return false}
+    return true});
+  const act=PF.q||PF.reg||PF.emp!==""||PF.dorm||PF.preco;
+  $("#pClear").hidden=!act;
+  [["#pReg","reg"],["#pEmp","emp"],["#pDorm","dorm"],["#pPreco","preco"]].forEach(([s,k])=>$(s).parentElement.classList.toggle("on",PF[k]!==""));
+  const byG=new Map();L.forEach(o=>{if(!byG.has(o.g))byG.set(o.g,[]);byG.get(o.g).push(o)});
+  const minV=a=>Math.min(...a.map(o=>o.tabela??Infinity));
+  let G=[...byG.entries()];
+  G.sort(PF.sort==="nome"?(a,b)=>PROMO.grupos[a[0]].nome.localeCompare(PROMO.grupos[b[0]].nome,"pt-BR"):PF.sort==="qtd"?(a,b)=>b[1].length-a[1].length:(a,b)=>minV(a[1])-minV(b[1]));
+  $("#pvCount").textContent=`${L.length} unidade${L.length!==1?"s":""} com desconto em ${G.length} empreendimento${G.length!==1?"s":""}`;
+  if(!G.length){$("#pOut").innerHTML=`<div class="empty"><b>Nenhuma unidade com esses filtros</b>Tire um filtro ou toque em Limpar.</div>`;return}
+  const open=G.length<=2||!!q;
+  $("#pOut").innerHTML=G.map(([g,us])=>{
+    const P=PROMO.grupos[g];const it=P.n.length?items[P.n[0]-1]:null;
+    us.sort((a,b)=>(a.tabela??1e12)-(b.tabela??1e12)||a.bloco.localeCompare(b.bloco)||a.unidade.localeCompare(b.unidade,undefined,{numeric:true}));
+    const ents=[...new Set(us.map(o=>o.entrega))];
+    const mv=minV(us);
+    return `<details class="pg" data-g="${g}"${open?" open":""} style="--rc:${RC[P.reg]||"#888"}"><summary>
+      ${it&&it.img?`<img class="th" src="${it.img}" alt="" loading="lazy">`:`<span class="th none">sem foto</span>`}
+      <div><h3>${esc(P.nome)}</h3><div class="meta"><span class="rdot"></span>${esc(REG_NAME[P.reg]||P.reg)}${P.bairro?" · "+esc(P.bairro):""}</div>
+      <div class="meta"><b>${us.length} unidade${us.length>1?"s":""}</b> · entrega ${esc(ents.join(", "))}</div></div>
+      <div class="pr"><small>a partir de</small><b>${isFinite(mv)?pBRL(mv):"Consultar"}</b><span class="chev"></span></div>
+    </summary><div class="pt-wrap"><table class="pt"><thead><tr><th>Bloco</th><th>Unidade</th><th>Descrição</th><th>Área</th><th>Renda</th><th>Resp. ITBI</th><th>Resp. registro</th><th>Valor avaliação</th><th>Valor tabela</th><th>Previsão entrega</th><th>Pós-chaves</th><th>Prêmio</th></tr></thead><tbody>${
+      us.map(o=>`<tr><td data-l="Bloco">${esc(o.bloco)}</td><td class="u" data-l="Unidade">${esc(o.unidade)}</td><td class="d" data-l="Descrição">${esc(o.descricao)}</td><td data-l="Área">${o.area!=null?o.area.toLocaleString("pt-BR",{minimumFractionDigits:2})+" m²":"–"}</td><td data-l="Renda">${o.renda?"R$ "+n0(o.renda):"–"}</td><td class="rs" data-l="Resp. ITBI">${esc(o.itbi||"–")}</td><td class="rs" data-l="Resp. registro">${esc(o.registro||"–")}</td><td data-l="Valor avaliação">${o.avaliacao?"R$ "+n0(o.avaliacao):"–"}</td><td class="v" data-l="Valor tabela">${pBRL(o.tabela)}</td><td data-l="Entrega">${esc(o.entrega)}</td><td data-l="Pós-chaves">${esc(o.posChaves||"–")}</td><td data-l="Prêmio" class="${/^S/i.test(o.premio)?"yes":"no"}">${esc(o.premio)}</td></tr>`).join("")
+    }</tbody></table></div></details>`}).join("");
+}
+function showTab(t,push){
+  tab=t==="promo"&&promoOn()?"promo":"main";
+  $("#tabPromo").setAttribute("aria-selected",tab==="promo");$("#tabMain").setAttribute("aria-selected",tab!=="promo");
+  $("#promoView").hidden=tab!=="promo";
+  document.querySelector("nav.filters").hidden=tab==="promo";document.querySelector("main.wrap").hidden=tab==="promo";
+  $("#viewBtn").hidden=tab==="promo";
+  if(tab==="promo"){if(location.hash!=="#promo"){try{history.replaceState(null,"","#promo")}catch(e){}}renderPromo()}
+  else setView(view);
+}
+$("#tabPromo").addEventListener("click",()=>{showTab("promo");scrollTo(0,0)});
+$("#tabMain").addEventListener("click",()=>{showTab("main");scrollTo(0,0)});
+$("#pq").addEventListener("input",e=>{PF.q=e.target.value.trim();renderPromo()});
+[["#pReg","reg"],["#pEmp","emp"],["#pDorm","dorm"],["#pPreco","preco"],["#pSort","sort"]].forEach(([s,k])=>$(s).addEventListener("change",e=>{PF[k]=e.target.value;renderPromo()}));
+$("#pClear").addEventListener("click",()=>{Object.assign(PF,{q:"",reg:"",emp:"",dorm:"",preco:""});$("#pq").value="";["#pReg","#pEmp","#pDorm","#pPreco"].forEach(s=>$(s).value="");renderPromo()});
+
 /* Eventos */
 $("#q").addEventListener("input",e=>{F.q=e.target.value.trim();render()});
 [["#fReg","reg"],["#fPreco","preco"],["#fDorm","dorm"],["#fVaga","vaga"],["#fRenda","renda"],["#fStatus","status"],["#fSort","sort"]]
@@ -737,7 +905,7 @@ $("#q").addEventListener("input",e=>{F.q=e.target.value.trim();render()});
 $("#clear").addEventListener("click",()=>{Object.assign(F,{q:"",reg:"",preco:"",dorm:"",vaga:"",renda:"",status:""});$("#q").value="";["#fReg","#fPreco","#fDorm","#fVaga","#fRenda","#fStatus"].forEach(s=>$(s).value="");render()});
 $("#regs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;F.reg=F.reg===b.dataset.reg?"":b.dataset.reg;$("#fReg").value=F.reg;render()});
 $("#viewBtn").addEventListener("click",()=>{setView(view==="cards"?"tabela":"cards");store.set("tab-view",view)});
-window.addEventListener("hashchange",()=>setView(location.hash.slice(1)));
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h==="promo")showTab("promo");else{view=h==="tabela"?"tabela":"cards";showTab("main")}});
 $("#themeBtn").addEventListener("click",()=>{
   const root=document.documentElement;
   const cur=root.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
@@ -746,8 +914,10 @@ $("#themeBtn").addEventListener("click",()=>{
   store.set("tab-theme",root.dataset.theme);
 });
 const savedTheme=store.get("tab-theme");if(savedTheme)document.documentElement.dataset.theme=savedTheme;
-setView(location.hash.slice(1)||store.get("tab-view")||"cards");
+const H0=location.hash.slice(1);
+setView(H0&&H0!=="promo"?H0:(store.get("tab-view")||"cards"));
 loadUnits();
+loadPromo().then(()=>{if((H0==="promo"||!H0)&&promoOn())showTab("promo")});
 </script>
 
 </body>
