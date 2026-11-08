@@ -340,7 +340,7 @@ dialog#gDlg::backdrop{background:rgba(2,6,22,.86)}
       <input id="pq" type="search" placeholder="Buscar torre ou unidade" aria-label="Buscar nas unidades com desconto"></label>
     <div class="chip"><select id="pReg" aria-label="Região"><option value="">Região</option></select></div>
     <div class="chip"><select id="pEmp" aria-label="Empreendimento"><option value="">Empreendimento</option></select></div>
-    <div class="chip"><select id="pFaixa" aria-label="Faixa de renda"><option value="">Faixa</option><option value="Faixa 1">Faixa 1 (até R$ 3.200)</option><option>HIS1</option><option>HIS2</option><option>HMP</option><option>R2V</option></select></div>
+    <div class="chip"><select id="pFaixa" aria-label="Renda do encarte"><option value="">Renda</option></select></div>
     <div class="chip"><select id="pDorm" aria-label="Dormitórios"><option value="">Dorms</option><option value="1">1 dorm.</option><option value="2">2 dorms.</option><option value="3">3 dorms.</option></select></div>
     <div class="chip"><select id="pPreco" aria-label="Valor até"><option value="">Valor</option><option value="220000">até R$ 220 mil</option><option value="250000">até R$ 250 mil</option><option value="300000">até R$ 300 mil</option><option value="350000">até R$ 350 mil</option><option value="400000">até R$ 400 mil</option></select></div>
     <div class="chip"><select id="pSort" aria-label="Ordenar"><option value="valor">Menor valor</option><option value="nome">A–Z</option><option value="qtd">Mais unidades</option></select></div>
@@ -846,6 +846,8 @@ function setupPromo(){
   $("#pvNote").textContent="Tabela oficial do encarte: "+PROMO.fonte+". Valores e condições sujeitos a análise de crédito e à disponibilidade da unidade no momento da reserva.";
   const regs=[...new Set(PROMO.units.map(o=>o.G.reg))];
   $("#pReg").innerHTML='<option value="">Região</option>'+REG_ORDER.filter(r=>regs.includes(r)).map(r=>`<option value="${r}">${REG_NAME[r]}</option>`).join("");
+  const rs=[...new Set(PROMO.units.map(o=>o.renda??"sem"))].sort((a,b)=>(a==="sem"?1e9:a)-(b==="sem"?1e9:b));
+  $("#pFaixa").innerHTML='<option value="">Renda</option>'+rs.map(v=>`<option value="${v}">${v==="sem"?"Renda: – (em branco no encarte)":"Renda até R$ "+n0(v)}</option>`).join("");
   const gs=[...new Set(PROMO.units.map(o=>o.g))].sort((a,b)=>PROMO.grupos[a].nome.localeCompare(PROMO.grupos[b].nome,"pt-BR"));
   $("#pEmp").innerHTML='<option value="">Empreendimento</option>'+gs.map(g=>`<option value="${g}">${esc(PROMO.grupos[g].nome)}</option>`).join("");
   if(tab==="promo")renderPromo();
@@ -856,7 +858,7 @@ function renderPromo(){
   const L=PROMO.units.filter(o=>{
     if(PF.reg&&o.G.reg!==PF.reg)return false;
     if(PF.emp!==""&&o.g!==+PF.emp)return false;
-    if(PF.faixa&&o.faixa!==PF.faixa)return false;
+    if(PF.faixa&&String(o.renda??"sem")!==PF.faixa)return false;
     if(PF.dorm&&o.dorms!==+PF.dorm)return false;
     if(PF.preco&&!(o.tabela!=null&&o.tabela<=+PF.preco))return false;
     if(q){const t=(o.G.nome+" "+o.G.oficial+" "+o.G.bairro+" "+o.bloco+" "+o.unidade+" "+o.descricao).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();if(!t.includes(q))return false}
@@ -881,8 +883,8 @@ function renderPromo(){
       <div><h3>${esc(P.nome)}</h3><div class="meta"><span class="rdot"></span>${esc(REG_NAME[P.reg]||P.reg)}${P.bairro?" · "+esc(P.bairro):""}</div>
       <div class="meta"><b>${us.length} unidade${us.length>1?"s":""}</b> · entrega ${esc(ents.join(", "))}</div></div>
       <div class="pr"><small>a partir de</small><b>${isFinite(mv)?pBRL(mv):"Consultar"}</b><span class="chev"></span></div>
-    </summary><div class="pt-wrap"><table class="pt"><thead><tr><th>Bloco</th><th>Unidade</th><th>Descrição</th><th>Faixa</th><th>Área</th><th>Renda</th><th>Resp. ITBI</th><th>Resp. registro</th><th>Valor avaliação</th><th>Valor tabela</th><th>Previsão entrega</th><th>Pós-chaves</th><th>Prêmio</th></tr></thead><tbody>${
-      us.map(o=>`<tr><td data-l="Bloco">${esc(o.bloco)}</td><td class="u" data-l="Unidade">${esc(o.unidade)}</td><td class="d" data-l="Descrição">${esc(o.descricao)}</td><td data-l="Faixa">${o.faixa?`<span class="tag"${o.faixa==="Faixa 1"?' title="Encarte: renda familiar até R$ 3.200 (MCMV Faixa 1)"':""}>${o.faixa}</span>`:"–"}</td><td data-l="Área">${o.area!=null?o.area.toLocaleString("pt-BR",{minimumFractionDigits:2})+" m²":"–"}</td><td data-l="Renda">${o.renda?"R$ "+n0(o.renda):"–"}</td><td class="rs" data-l="Resp. ITBI">${esc(o.itbi||"–")}</td><td class="rs" data-l="Resp. registro">${esc(o.registro||"–")}</td><td data-l="Valor avaliação">${o.avaliacao?"R$ "+n0(o.avaliacao):"–"}</td><td class="v" data-l="Valor tabela">${pBRL(o.tabela)}</td><td data-l="Entrega">${esc(o.entrega)}</td><td data-l="Pós-chaves">${esc(o.posChaves||"–")}</td><td data-l="Prêmio" class="${/^S/i.test(o.premio)?"yes":"no"}">${esc(o.premio)}</td></tr>`).join("")
+    </summary><div class="pt-wrap"><table class="pt"><thead><tr><th>Bloco</th><th>Unidade</th><th>Descrição</th><th>Área</th><th>Renda</th><th>Resp. ITBI</th><th>Resp. registro</th><th>Valor avaliação</th><th>Valor tabela</th><th>Previsão entrega</th><th>Pós-chaves</th><th>Prêmio</th></tr></thead><tbody>${
+      us.map(o=>`<tr><td data-l="Bloco">${esc(o.bloco)}</td><td class="u" data-l="Unidade">${esc(o.unidade)}</td><td class="d" data-l="Descrição">${esc(o.descricao)}</td><td data-l="Área">${o.area!=null?o.area.toLocaleString("pt-BR",{minimumFractionDigits:2})+" m²":"–"}</td><td data-l="Renda">${o.renda?"R$ "+n0(o.renda):"–"}</td><td class="rs" data-l="Resp. ITBI">${esc(o.itbi||"–")}</td><td class="rs" data-l="Resp. registro">${esc(o.registro||"–")}</td><td data-l="Valor avaliação">${o.avaliacao?"R$ "+n0(o.avaliacao):"–"}</td><td class="v" data-l="Valor tabela">${pBRL(o.tabela)}</td><td data-l="Entrega">${esc(o.entrega)}</td><td data-l="Pós-chaves">${esc(o.posChaves||"–")}</td><td data-l="Prêmio" class="${/^S/i.test(o.premio)?"yes":"no"}">${esc(o.premio)}</td></tr>`).join("")
     }</tbody></table></div></details>`}).join("");
 }
 function showTab(t,push){

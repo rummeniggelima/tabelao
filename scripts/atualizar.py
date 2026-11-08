@@ -42,11 +42,6 @@ if os.path.exists(pp) and st:
         x[iD] = None if s is None else (1 if s == 'Disponível' else 0)
         sts[s] += 1
         if s is None: fora.append(g['nome'] + ' ' + x[1] + ' ' + x[2])
-    # faixa: SÓ do que o encarte diz (coluna Renda): 3.200 = trava MCMV Faixa 1; 4.863 HIS1; 9.726 HIS2; 16.210 HMP; sem renda = R2V
-    if 'faixa' not in C: C.append('faixa'); [x.append(None) for x in P['rows']]
-    iF, iR = C.index('faixa'), C.index('renda')
-    porRenda = {3200: 'Faixa 1', 4863: 'HIS1', 9726: 'HIS2', 16210: 'HMP', None: 'R2V'}
-    for x in P['rows']: x[iF] = porRenda.get(x[iR])
     P['conferidoEm'] = out['geradoEm']
     json.dump(P, open(pp, 'w'), ensure_ascii=False, separators=(',', ':'))
     print('promo:', dict(sts), '| ativas:', sum(1 for x in P['rows'] if x[iD] != 0), '| campanha ativa:', P.get('ativo', True))
