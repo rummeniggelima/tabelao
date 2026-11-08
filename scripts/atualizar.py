@@ -42,6 +42,19 @@ if os.path.exists(pp) and st:
         x[iD] = None if s is None else (1 if s == 'Disponível' else 0)
         sts[s] += 1
         if s is None: fora.append(g['nome'] + ' ' + x[1] + ' ' + x[2])
+    # faixa (HIS1/HIS2/HMP/R2V): da descricao do encarte; senao do Salesforce; senao pela renda maxima
+    if 'faixa' not in C: C.append('faixa'); [x.append(None) for x in P['rows']]
+    iF = C.index('faixa'); FX = re.compile(r'\b(HIS1|HIS2|HMP|R2V)\b')
+    sfr = {}
+    for r in out['rows']: sfr[(r[0], norm(out['blocos'][r[1]]), canon(r[2]))] = r[5]
+    porRenda = {4863: 'HIS1', 9726: 'HIS2', 16210: 'HMP', None: 'R2V'}
+    for x in P['rows']:
+        m = FX.search(x[3] or ''); f = m.group(1) if m else None
+        if not f:
+            for n in P['grupos'][x[0]]['n']:
+                f = f or sfr.get((n, norm(x[1]), canon(x[2])))
+        if not f and x[C.index('renda')] in porRenda: f = porRenda[x[C.index('renda')]]
+        x[iF] = f if f in ('HIS1', 'HIS2', 'HMP', 'R2V') else None
     P['conferidoEm'] = out['geradoEm']
     json.dump(P, open(pp, 'w'), ensure_ascii=False, separators=(',', ':'))
     print('promo:', dict(sts), '| ativas:', sum(1 for x in P['rows'] if x[iD] != 0), '| campanha ativa:', P.get('ativo', True))
