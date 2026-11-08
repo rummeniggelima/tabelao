@@ -340,6 +340,7 @@ dialog#gDlg::backdrop{background:rgba(2,6,22,.86)}
       <input id="pq" type="search" placeholder="Buscar torre ou unidade" aria-label="Buscar nas unidades com desconto"></label>
     <div class="chip"><select id="pReg" aria-label="Região"><option value="">Região</option></select></div>
     <div class="chip"><select id="pEmp" aria-label="Empreendimento"><option value="">Empreendimento</option></select></div>
+    <div class="chip"><select id="pFaixa" aria-label="Renda do encarte"><option value="">Renda</option></select></div>
     <div class="chip"><select id="pDorm" aria-label="Dormitórios"><option value="">Dorms</option><option value="1">1 dorm.</option><option value="2">2 dorms.</option><option value="3">3 dorms.</option></select></div>
     <div class="chip"><select id="pPreco" aria-label="Valor até"><option value="">Valor</option><option value="220000">até R$ 220 mil</option><option value="250000">até R$ 250 mil</option><option value="300000">até R$ 300 mil</option><option value="350000">até R$ 350 mil</option><option value="400000">até R$ 400 mil</option></select></div>
     <div class="chip"><select id="pSort" aria-label="Ordenar"><option value="valor">Menor valor</option><option value="nome">A–Z</option><option value="qtd">Mais unidades</option></select></div>
@@ -817,7 +818,7 @@ $("#out").addEventListener("click",e=>{const b=e.target.closest("[data-s]");if(b
 
 /* Unidades com descontos (encarte enviado pela Plano&Plano), carregadas de promocoes.json */
 let PROMO=null, tab="main";
-const PF={q:"",reg:"",emp:"",dorm:"",preco:"",sort:"valor"};
+const PF={q:"",reg:"",emp:"",faixa:"",dorm:"",preco:"",sort:"valor"};
 const hojeSP=()=>{try{return new Date().toLocaleDateString("sv-SE",{timeZone:"America/Sao_Paulo"})}catch(e){return new Date().toISOString().slice(0,10)}};
 const brD=s=>s.split("-").reverse().slice(0,2).join("/");
 const pBRL=v=>v==null?"Consultar":"R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -845,6 +846,8 @@ function setupPromo(){
   $("#pvNote").textContent="Tabela oficial do encarte: "+PROMO.fonte+". Valores e condições sujeitos a análise de crédito e à disponibilidade da unidade no momento da reserva.";
   const regs=[...new Set(PROMO.units.map(o=>o.G.reg))];
   $("#pReg").innerHTML='<option value="">Região</option>'+REG_ORDER.filter(r=>regs.includes(r)).map(r=>`<option value="${r}">${REG_NAME[r]}</option>`).join("");
+  const rs=[...new Set(PROMO.units.map(o=>o.renda??"sem"))].sort((a,b)=>(a==="sem"?1e9:a)-(b==="sem"?1e9:b));
+  $("#pFaixa").innerHTML='<option value="">Renda</option>'+rs.map(v=>`<option value="${v}">${v==="sem"?"Renda: – (em branco no encarte)":"Renda até R$ "+n0(v)}</option>`).join("");
   const gs=[...new Set(PROMO.units.map(o=>o.g))].sort((a,b)=>PROMO.grupos[a].nome.localeCompare(PROMO.grupos[b].nome,"pt-BR"));
   $("#pEmp").innerHTML='<option value="">Empreendimento</option>'+gs.map(g=>`<option value="${g}">${esc(PROMO.grupos[g].nome)}</option>`).join("");
   if(tab==="promo")renderPromo();
@@ -855,13 +858,14 @@ function renderPromo(){
   const L=PROMO.units.filter(o=>{
     if(PF.reg&&o.G.reg!==PF.reg)return false;
     if(PF.emp!==""&&o.g!==+PF.emp)return false;
+    if(PF.faixa&&String(o.renda??"sem")!==PF.faixa)return false;
     if(PF.dorm&&o.dorms!==+PF.dorm)return false;
     if(PF.preco&&!(o.tabela!=null&&o.tabela<=+PF.preco))return false;
     if(q){const t=(o.G.nome+" "+o.G.oficial+" "+o.G.bairro+" "+o.bloco+" "+o.unidade+" "+o.descricao).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();if(!t.includes(q))return false}
     return true});
-  const act=PF.q||PF.reg||PF.emp!==""||PF.dorm||PF.preco;
+  const act=PF.q||PF.reg||PF.emp!==""||PF.faixa||PF.dorm||PF.preco;
   $("#pClear").hidden=!act;
-  [["#pReg","reg"],["#pEmp","emp"],["#pDorm","dorm"],["#pPreco","preco"]].forEach(([s,k])=>$(s).parentElement.classList.toggle("on",PF[k]!==""));
+  [["#pReg","reg"],["#pEmp","emp"],["#pFaixa","faixa"],["#pDorm","dorm"],["#pPreco","preco"]].forEach(([s,k])=>$(s).parentElement.classList.toggle("on",PF[k]!==""));
   const byG=new Map();L.forEach(o=>{if(!byG.has(o.g))byG.set(o.g,[]);byG.get(o.g).push(o)});
   const minV=a=>Math.min(...a.map(o=>o.tabela??Infinity));
   let G=[...byG.entries()];
@@ -895,8 +899,8 @@ function showTab(t,push){
 $("#tabPromo").addEventListener("click",()=>{showTab("promo");scrollTo(0,0)});
 $("#tabMain").addEventListener("click",()=>{showTab("main");scrollTo(0,0)});
 $("#pq").addEventListener("input",e=>{PF.q=e.target.value.trim();renderPromo()});
-[["#pReg","reg"],["#pEmp","emp"],["#pDorm","dorm"],["#pPreco","preco"],["#pSort","sort"]].forEach(([s,k])=>$(s).addEventListener("change",e=>{PF[k]=e.target.value;renderPromo()}));
-$("#pClear").addEventListener("click",()=>{Object.assign(PF,{q:"",reg:"",emp:"",dorm:"",preco:""});$("#pq").value="";["#pReg","#pEmp","#pDorm","#pPreco"].forEach(s=>$(s).value="");renderPromo()});
+[["#pReg","reg"],["#pEmp","emp"],["#pFaixa","faixa"],["#pDorm","dorm"],["#pPreco","preco"],["#pSort","sort"]].forEach(([s,k])=>$(s).addEventListener("change",e=>{PF[k]=e.target.value;renderPromo()}));
+$("#pClear").addEventListener("click",()=>{Object.assign(PF,{q:"",reg:"",emp:"",faixa:"",dorm:"",preco:""});$("#pq").value="";["#pReg","#pEmp","#pFaixa","#pDorm","#pPreco"].forEach(s=>$(s).value="");renderPromo()});
 
 /* Eventos */
 $("#q").addEventListener("input",e=>{F.q=e.target.value.trim();render()});
